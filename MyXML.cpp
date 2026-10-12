@@ -15,6 +15,7 @@ typedef struct
     std::string timestamp;
     std::string level;
     std::string msg;
+    
 } NewEvent;
 
 std::string input;
@@ -34,12 +35,12 @@ bool ParseOneXML(std::string filename, bool save)
         return false;
     }
 
-
     tinyxml2::XMLElement* root = doc.RootElement();
 
     for (tinyxml2::XMLElement* event = root->FirstChildElement("Event");
         event != nullptr;
         event = event->NextSiblingElement("Event"))
+
     {
         tinyxml2::XMLElement* system = event->FirstChildElement();
         tinyxml2::XMLElement* name = system->FirstChildElement("Provider");
@@ -135,28 +136,34 @@ int main()
                 save = true;
                 std::cout << "Event saving set to: " << save << "\n";
             }
+
             else if (status == "false" || status == "False")
             {
                 save = false;
                 std::cout << "Event saving set to: " << save << "\n";
             }
+
             else
             {
                 std::cout << "Wrong parameter input, Event saving is currently set to: " << save << "\n";
             }
         }
+
         else if (command == "parseall")
         {
             bool success = ParseAllXML(save);
         }
+
         else if (command == "help")
         {
             std::cout << "Command: Parse, Args: File name. Parses a single XML file, returns boolean value of success." << "\n"
                       << "Command: Exit. Exits the program." << "\n"
                       << "Command: Help. Help menu pop-up." << "\n"
                       << "Command: Save, Args: True/False. Whether events get stored or not (only during code run)." << "\n"
+                      << "Command: Parseall. Parses all .xml files." << "\n"
                       << "In order to parse an .xml file it must be in the same directory of the executable file." << "\n";
         }
+
         else if (command == "allevent")
         {
             if (Events.size() > 0)
@@ -173,6 +180,7 @@ int main()
             }
         }
     }
+
     if (input == "exit")
     {
         system("pause");
